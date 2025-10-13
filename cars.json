@@ -1,0 +1,96 @@
+[
+    {
+      "id": 1,
+      "type": "car",
+      "make": "Toyota",
+      "model": "Camry",
+      "year": 2018,
+      "price": 32000,
+      "fuel": "ბენზინი",
+      "trans": "ავტომატური",
+      "mileage": 56000,
+      "color": "თეთრი",
+      "images": [
+        "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
+        "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "car",
+      "make": "BMW",
+      "model": "320i",
+      "year": 2020,
+      "price": 42000,
+      "fuel": "ბენზინი",
+      "trans": "ავტომატური",
+      "mileage": 32000,
+      "color": "შავი",
+      "images": [
+        "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
+        "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "motorcycle",
+      "make": "Yamaha",
+      "model": "YZF-R6",
+      "year": 2019,
+      "price": 9000,
+      "fuel": "ბენზინი",
+      "trans": "მექანიკური",
+      "mileage": 8000,
+      "color": "ლურჯი",
+      "images": [
+        "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
+        "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "crane",
+      "make": "Liebherr",
+      "model": "LTM 1100",
+      "year": 2012,
+      "price": 85000,
+      "fuel": "დიზელი",
+      "trans": "ავტომატური",
+      "mileage": 0,
+      "color": "ყვითელი",
+      "images": [
+        "https://images.pexels.com/photos/9817/crane-industry-storm-clouds.jpg"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "ship",
+      "make": "Yamarin",
+      "model": "C22",
+      "year": 2016,
+      "price": 45000,
+      "fuel": "ბენზინი",
+      "trans": "ავტომატური",
+      "mileage": 0,
+      "color": "თეთრი",
+      "images": [
+        "https://images.pexels.com/photos/1034662/pexels-photo-1034662.jpeg"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "motorcycle",
+      "make": "Honda",
+      "model": "CBR500R",
+      "year": 2017,
+      "price": 5500,
+      "fuel": "ბენზინი",
+      "trans": "მექანიკური",
+      "mileage": 12000,
+      "color": "წითელი",
+      "images": [
+        "https://images.pexels.com/photos/163466/motorbike-bikes-ride-street-163466.jpeg"
+      ]
+    }
+  ]
+  
