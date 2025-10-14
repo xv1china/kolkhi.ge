@@ -281,7 +281,7 @@ function showCarDetail() {
     
     // გალერეა
     const galleryHtml = (car.images || [])
-        .map(img => `<img src="${img}" alt="${car.make} ${car.model}" loading="lazy" />`)
+        .map(img => `<img src="${img}" alt="${car.make} ${car.model}" loading="lazy" height="300px" />`)
         .join('');
 
     html += `<div class="gallery">${galleryHtml}</div>`;

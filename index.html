@@ -1,97 +1,109 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ka">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Simple Listing — ტიპი + მარკა + მოდელი</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="container">
-    <header>
-      <div class="logo"><div class="dot"></div></div>
-      <div>
-        <h1>ასპარეზი — მარტივი ლისტინგი</h1>
-        <div class="subtitle">აირჩიე ტიპი → მარკა → მოდელი · თითოეულ ნივთს აქვს თავისი გვერდი</div>
-      </div>
-    </header>
-
-    <div class="layout">
-      <div class="filters">
-        <h3>ფილტრები</h3>
-
-        <div class="field">
-          <label>ტიპი</label>
-          <select id="typeSelect">
-            <option value="">ყველა</option>
-            <option value="car">ავტომობილები</option>
-            <option value="motorcycle">მოტოციკლები</option>
-            <option value="crane">ამწეკრანები</option>
-            <option value="ship">გემები</option>
-          </select>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <div class="dot"></div>
+          <h1>KOLKHI</h1>
         </div>
-
-        <div class="field">
-          <label>მარკა</label>
-          <select id="makeSelect"><option value="">ყველა</option></select>
+        <div></div>
+        <div>
+          <p><a href="">VIN-ის შემოწმება</a></p>
+          <p><a href="">აუქციონი</a></p>
+          <p><a href="">დახმარება</a></p>
+          <p><a href="">კონტაქტი</a></p>
         </div>
+      </header>
 
-        <div class="field">
-          <label>მოდელი</label>
-          <select id="modelSelect"><option value="">ყველა</option></select>
-        </div>
+      <div class="layout">
+        <div class="filters">
+          <h3>ფილტრები</h3>
 
-        <div class="field">
-          <label>ძებნა (სახელი, მოდელი)</label>
-          <input id="q" type="text" placeholder="მაგ: Camry, YZF..." />
-        </div>
-
-        <div class="field row">
-          <div>
-            <label>წელი min</label>
-            <input id="yearMin" type="number" placeholder="2000" />
-          </div>
-          <div>
-            <label>წელი max</label>
-            <input id="yearMax" type="number" placeholder="2025" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label>ფასი (₾)</label>
-          <div class="row">
-            <input id="priceMin" type="number" placeholder="min" />
-            <input id="priceMax" type="number" placeholder="max" />
-          </div>
-        </div>
-
-        <div style="display:flex;gap:8px;margin-top:10px">
-          <button class="btn" id="applyBtn">გაფილტვრა</button>
-          <button class="btn ghost" id="resetBtn">საწყისი</button>
-        </div>
-
-        <div class="hint">პირველად დააყენე ტიპი (ცხელი) — მარკები და მოდელები ავტომატურად ჩნდება</div>
-      </div>
-
-      <main>
-        <div class="results-header">
-          <div><strong id="count">0</strong> განცხადება</div>
-          <div class="sort-box">
-            <label>სორტი:</label>
-            <select id="sort">
-              <option value="new">ახალი</option>
-              <option value="priceAsc">ფასი ზრდის მიხედვით</option>
-              <option value="priceDesc">ფასი კლების მიხედვით</option>
-              <option value="yearDesc">წელი ახალი</option>
+          <div class="field">
+            <label>ტიპი</label>
+            <select id="typeSelect">
+              <option value="">ყველა</option>
+              <option value="car">ავტომობილები</option>
+              <option value="motorcycle">მოტოციკლები</option>
+              <option value="crane">ამწეკრანები</option>
+              <option value="ship">გემები</option>
             </select>
           </div>
+
+          <div class="field">
+            <label>მარკა</label>
+            <select id="makeSelect">
+              <option value="">ყველა</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>მოდელი</label>
+            <select id="modelSelect">
+              <option value="">ყველა</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>ძებნა (სახელი, მოდელი)</label>
+            <input id="q" type="text" placeholder="მაგ: Camry, YZF..." />
+          </div>
+
+          <div class="field row">
+            <div>
+              <label>წელი min</label>
+              <input id="yearMin" type="number" placeholder="2000" />
+            </div>
+            <div>
+              <label>წელი max</label>
+              <input id="yearMax" type="number" placeholder="2025" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>ფასი (₾)</label>
+            <div class="row">
+              <input id="priceMin" type="number" placeholder="min" />
+              <input id="priceMax" type="number" placeholder="max" />
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: 10px">
+            <button class="btn" id="applyBtn">გაფილტვრა</button>
+            <button class="btn ghost" id="resetBtn">საწყისი</button>
+          </div>
+
+          <div class="hint">
+            პირველად დააყენე ტიპი (ცხელი) — მარკები და მოდელები ავტომატურად
+            ჩნდება
+          </div>
         </div>
 
-        <div id="list" class="grid"></div>
-      </main>
-    </div>
-  </div>
+        <main>
+          <div class="results-header">
+            <div><strong id="count">0</strong> განცხადება</div>
+            <div class="sort-box">
+              <label>სორტი:</label>
+              <select id="sort">
+                <option value="new">ახალი</option>
+                <option value="priceAsc">ფასი ზრდის მიხედვით</option>
+                <option value="priceDesc">ფასი კლების მიხედვით</option>
+                <option value="yearDesc">წელი ახალი</option>
+              </select>
+            </div>
+          </div>
 
-  <script src="script.js"></script>
-</body>
+          <div id="list" class="grid"></div>
+        </main>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>
