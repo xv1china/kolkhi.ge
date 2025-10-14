@@ -1,96 +1,112 @@
 [
-    {
-      "id": 1,
-      "type": "car",
-      "make": "Toyota",
-      "model": "Camry",
-      "year": 2018,
-      "price": 32000,
-      "fuel": "ბენზინი",
-      "trans": "ავტომატური",
-      "mileage": 56000,
-      "color": "თეთრი",
-      "images": [
-        "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
-        "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg"
-      ]
-    },
-    {
-      "id": 2,
-      "type": "car",
-      "make": "BMW",
-      "model": "320i",
-      "year": 2020,
-      "price": 42000,
-      "fuel": "ბენზინი",
-      "trans": "ავტომატური",
-      "mileage": 32000,
-      "color": "შავი",
-      "images": [
-        "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
-        "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg"
-      ]
-    },
-    {
-      "id": 3,
-      "type": "motorcycle",
-      "make": "Yamaha",
-      "model": "YZF-R6",
-      "year": 2019,
-      "price": 9000,
-      "fuel": "ბენზინი",
-      "trans": "მექანიკური",
-      "mileage": 8000,
-      "color": "ლურჯი",
-      "images": [
-        "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
-        "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg"
-      ]
-    },
-    {
-      "id": 4,
-      "type": "crane",
-      "make": "Liebherr",
-      "model": "LTM 1100",
-      "year": 2012,
-      "price": 85000,
-      "fuel": "დიზელი",
-      "trans": "ავტომატური",
-      "mileage": 0,
-      "color": "ყვითელი",
-      "images": [
-        "https://images.pexels.com/photos/9817/crane-industry-storm-clouds.jpg"
-      ]
-    },
-    {
-      "id": 5,
-      "type": "ship",
-      "make": "Yamarin",
-      "model": "C22",
-      "year": 2016,
-      "price": 45000,
-      "fuel": "ბენზინი",
-      "trans": "ავტომატური",
-      "mileage": 0,
-      "color": "თეთრი",
-      "images": [
-        "https://images.pexels.com/photos/1034662/pexels-photo-1034662.jpeg"
-      ]
-    },
-    {
-      "id": 6,
-      "type": "motorcycle",
-      "make": "Honda",
-      "model": "CBR500R",
-      "year": 2017,
-      "price": 5500,
-      "fuel": "ბენზინი",
-      "trans": "მექანიკური",
-      "mileage": 12000,
-      "color": "წითელი",
-      "images": [
-        "https://images.pexels.com/photos/163466/motorbike-bikes-ride-street-163466.jpeg"
-      ]
-    }
-  ]
+  {
+    "id": 1,
+    "type": "car",
+    "make": "Toyota",
+    "model": "Camry",
+    "year": 2018,
+    "price": 32000,
+    "fuel": "ბენზინი",
+    "trans": "ავტომატური",
+    "mileage": 56000,
+    "color": "თეთრი",
+    "images": [
+      "https://static.my.ge/myauto/photos/9/0/3/8/0/large/116083099_1.jpg?v=5",
+      "https://static.my.ge/myauto/photos/9/0/3/8/0/large/116083099_4.jpg?v=5"
+    ]
+  },
+  {
+    "id": 2,
+    "type": "car",
+    "make": "BMW",
+    "model": "320i",
+    "year": 2020,
+    "price": 42000,
+    "fuel": "ბენზინი",
+    "trans": "ავტომატური",
+    "mileage": 32000,
+    "color": "შავი",
+    "images": [
+      "https://static.my.ge/myauto/photos/6/0/4/5/1/large/118154065_1.jpg?v=4",
+      "https://static.my.ge/myauto/photos/6/0/4/5/1/large/118154065_2.jpg?v=4"
+    ]
+  },
+  {
+    "id": 3,
+    "type": "motorcycle",
+    "make": "Yamaha",
+    "model": "YZF-R6",
+    "year": 2019,
+    "price": 9000,
+    "fuel": "ბენზინი",
+    "trans": "მექანიკური",
+    "mileage": 8000,
+    "color": "ლურჯი",
+    "images": [
+      "https://static.my.ge/myauto/photos/8/1/9/3/7/large/118739188_1.jpg?v=0",
+      "https://static.my.ge/myauto/photos/8/1/9/3/7/large/118739188_2.jpg?v=0"
+    ]
+  },
+  {
+    "id": 4,
+    "type": "crane",
+    "make": "Liebherr",
+    "model": "LTM 1100",
+    "year": 2012,
+    "price": 85000,
+    "fuel": "დიზელი",
+    "trans": "ავტომატური",
+    "mileage": 0,
+    "color": "ყვითელი",
+    "images": [
+      "https://cdn.cranemarket.com/images/listings/2012-liebherr-ltm-1100-4-2-87779.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "type": "ship",
+    "make": "Yamarin",
+    "model": "C22",
+    "year": 2016,
+    "price": 45000,
+    "fuel": "ბენზინი",
+    "trans": "ავტომატური",
+    "mileage": 0,
+    "color": "თეთრი",
+    "images": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/86/Japan_Coast_Guard_vessel_Yashima_%28PLH_22%29.jpg"
+    ]
+  },
+  {
+    "id": 6,
+    "type": "motorcycle",
+    "make": "Honda",
+    "model": "CBR500R",
+    "year": 2017,
+    "price": 5500,
+    "fuel": "ბენზინი",
+    "trans": "მექანიკური",
+    "mileage": 12000,
+    "color": "წითელი",
+    "images": [
+      "https://cdn.bikedekho.com/processedimages/honda/honda-cbr500r/640X309/honda-cbr500r5e61d382491d1.jpg?imwidth=412&impolicy=resize"
+    ]
+  },
+  {
+    "id": 2,
+    "type": "car",
+    "make": "BMW",
+    "model": "M5 f90",
+    "year": 2020,
+    "price": 162000,
+    "fuel": "ბენზინი",
+    "trans": "ავტომატური",
+    "mileage": 80000,
+    "color": "შავი",
+    "images": [
+      "https://static.my.ge/myauto/photos/7/5/9/9/2/large/118299574_1.jpg?v=7",
+      "https://static.my.ge/myauto/photos/7/5/9/9/2/large/118299574_2.jpg?v=7"
+    ]
+  }
   
+]

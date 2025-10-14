@@ -1,166 +1,310 @@
 let CARS = [];
 
-// ჩამართვა
+// DOM ელემენტების ქეშირება - კოდის გასამარტივებლად
+const DOM = {
+    list: document.getElementById('list'),
+    count: document.getElementById('count'),
+    carDetail: document.getElementById('carDetail'),
+    typeSelect: document.getElementById('typeSelect'),
+    makeSelect: document.getElementById('makeSelect'),
+    modelSelect: document.getElementById('modelSelect'),
+    applyBtn: document.getElementById('applyBtn'),
+    resetBtn: document.getElementById('resetBtn'),
+    q: document.getElementById('q'),
+    sort: document.getElementById('sort'),
+    yearMin: document.getElementById('yearMin'),
+    yearMax: document.getElementById('yearMax'),
+    priceMin: document.getElementById('priceMin'),
+    priceMax: document.getElementById('priceMax'),
+};
+
+/**
+ * URL პარამეტრის წაკითხვა
+ * @param {string} name - პარამეტრის სახელი
+ * @returns {string | null}
+ */
 function getParam(name) {
-    const url = new URL(window.location.href);
-    return url.searchParams.get(name);
+    return new URLSearchParams(window.location.search).get(name);
 }
 
-function init() {
-    fetch('cars.json').then(r => r.json()).then(data => {
-        CARS = data;
-        if (window.location.pathname.endsWith('car.html')) {
+/**
+ * HTML <option> ელემენტის შექმნა
+ * @param {string} value
+ * @param {string} text
+ * @returns {HTMLOptionElement}
+ */
+const createOption = (value, text) => {
+    const o = document.createElement('option');
+    o.value = value;
+    o.textContent = text;
+    return o;
+};
+
+// ---
+
+
+
+/**
+ * მონაცემების ჩატვირთვა და გვერდის ინიციალიზაცია
+ */
+async function init() {
+    try {
+        const response = await fetch('cars.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        CARS = await response.json();
+
+        const isCarPage = window.location.pathname.endsWith('car.html');
+
+        if (isCarPage) {
             showCarDetail();
         } else {
             setupFilters();
             renderList(CARS);
         }
-    }).catch(err => {
+    } catch (err) {
         console.error('cars.json load failed', err);
-        if (!window.location.pathname.endsWith('car.html')) {
-            document.getElementById('list').innerHTML = '<div class="no-results">მონაცემები ჩაიტვირთა ვერ</div>';
-        } else {
-            document.getElementById('carDetail').innerText = 'მონაცემები ჩაიტვირთა ვერ';
+        const errorMessage = '<div class="no-results">მონაცემები ვერ ჩაიტვირთა</div>';
+        const isCarPage = window.location.pathname.endsWith('car.html');
+
+        if (isCarPage && DOM.carDetail) {
+            DOM.carDetail.innerText = 'მონაცემები ვერ ჩაიტვირთა';
+        } else if (DOM.list) {
+            DOM.list.innerHTML = errorMessage;
         }
-    });
+    }
 }
 
+// ---
+
+/**
+ * ფილტრის ინტერფეისის ინიციალიზაცია
+ */
 function setupFilters() {
-    const type = document.getElementById('typeSelect');
-    const make = document.getElementById('makeSelect');
-    const model = document.getElementById('modelSelect');
-    const apply = document.getElementById('applyBtn');
-    const reset = document.getElementById('resetBtn');
-    const q = document.getElementById('q');
+    if (!DOM.typeSelect) return; // ამოწმებს, არის თუ არა ფილტრების გვერდზე
 
-    // როცა ტიპი იცვლება -> განახლდეს მარკები და მოდელები
-    type.addEventListener('change', () => {
+    // როცა ტიპი/მარკა იცვლება -> განახლდეს მარკები/მოდელები
+    DOM.typeSelect.addEventListener('change', () => {
         populateMakes();
         populateModels();
     });
 
-    make.addEventListener('change', () => {
-        populateModels();
-    });
+    DOM.makeSelect.addEventListener('change', populateModels);
 
-    apply.addEventListener('click', applyFilter);
-    reset.addEventListener('click', () => {
-        document.querySelectorAll('.filters input, .filters select').forEach(i => i.value = '');
-        populateMakes();
-        populateModels();
-        renderList(CARS);
-    });
+    // ღილაკების დამმუშავებლები
+    DOM.applyBtn.addEventListener('click', applyFilter);
+    DOM.resetBtn.addEventListener('click', resetFilters);
 
+    // სორტირება
+    DOM.sort.addEventListener('change', applyFilter);
+    
     // თავდაპირველად ავავსოთ მარკები/მოდელები
     populateMakes();
     populateModels();
-
-    // შეიცავს Enter-ის მხარდაჭერას ძებნაზე
-    q.addEventListener('keydown', e => { if (e.key === 'Enter') applyFilter(); });
-
-    // sort
-    document.getElementById('sort').addEventListener('change', () => {
-        applyFilter();
-    });
 }
 
+/**
+ * მარკების სელექტორის შევსება
+ */
 function populateMakes() {
-    const typeVal = document.getElementById('typeSelect').value;
-    const makeSel = document.getElementById('makeSelect');
-    makeSel.innerHTML = '<option value="">ყველა</option>';
-    const makes = Array.from(new Set(CARS.filter(c => !typeVal || c.type === typeVal).map(c => c.make))).sort();
-    makes.forEach(m => {
-        const o = document.createElement('option'); o.value = m; o.textContent = m; makeSel.appendChild(o);
-    });
+    const typeVal = DOM.typeSelect.value;
+    const makeSel = DOM.makeSelect;
+
+    makeSel.innerHTML = ''; // დაცლა
+    makeSel.appendChild(createOption('', 'ყველა'));
+
+    const makes = CARS
+        .filter(c => !typeVal || c.type === typeVal)
+        .map(c => c.make);
+
+    Array.from(new Set(makes))
+        .sort()
+        .forEach(m => makeSel.appendChild(createOption(m, m)));
 }
 
+/**
+ * მოდელების სელექტორის შევსება
+ */
 function populateModels() {
-    const typeVal = document.getElementById('typeSelect').value;
-    const makeVal = document.getElementById('makeSelect').value;
-    const modelSel = document.getElementById('modelSelect');
-    modelSel.innerHTML = '<option value="">ყველა</option>';
-    const models = Array.from(new Set(CARS
+    const typeVal = DOM.typeSelect.value;
+    const makeVal = DOM.makeSelect.value;
+    const modelSel = DOM.modelSelect;
+
+    modelSel.innerHTML = ''; // დაცლა
+    modelSel.appendChild(createOption('', 'ყველა'));
+
+    const models = CARS
         .filter(c => (!typeVal || c.type === typeVal) && (!makeVal || c.make === makeVal))
-        .map(c => c.model))).sort();
-    models.forEach(m => {
-        const o = document.createElement('option'); o.value = m; o.textContent = m; modelSel.appendChild(o);
-    });
+        .map(c => c.model);
+
+    Array.from(new Set(models))
+        .sort()
+        .forEach(m => modelSel.appendChild(createOption(m, m)));
 }
 
+/**
+ * ფილტრების გასუფთავება და სიის განახლება
+ */
+function resetFilters() {
+    // ფილტრის ველების გასუფთავება
+    document.querySelectorAll('.filters input, .filters select').forEach(i => i.value = '');
+
+    // სელექტორების განახლება
+    populateMakes();
+    populateModels();
+    
+    // სიის რენდერინგი
+    renderList(CARS);
+}
+
+/**
+ * ფილტრების ლოგიკის გამოყენება და სიის განახლება
+ */
 function applyFilter() {
-    const typeVal = document.getElementById('typeSelect').value;
-    const makeVal = document.getElementById('makeSelect').value;
-    const modelVal = document.getElementById('modelSelect').value;
-    const q = (document.getElementById('q').value || '').trim().toLowerCase();
-    const ym = parseInt(document.getElementById('yearMin').value);
-    const yM = parseInt(document.getElementById('yearMax').value);
-    const pmin = parseFloat(document.getElementById('priceMin').value);
-    const pmax = parseFloat(document.getElementById('priceMax').value);
-    const sortVal = document.getElementById('sort').value;
+    const { typeSelect, makeSelect, modelSelect, q, yearMin, yearMax, priceMin, priceMax, sort } = DOM;
+
+    // ფილტრის მნიშვნელობების ობიექტში მოგროვება
+    const filters = {
+        type: typeSelect.value,
+        make: makeSelect.value,
+        model: modelSelect.value,
+        query: (q.value || '').trim().toLowerCase(),
+        yearMin: parseInt(yearMin.value),
+        yearMax: parseInt(yearMax.value),
+        priceMin: parseFloat(priceMin.value),
+        priceMax: parseFloat(priceMax.value),
+        sort: sort.value
+    };
 
     let out = CARS.slice();
-    if (typeVal) out = out.filter(c => c.type === typeVal);
-    if (makeVal) out = out.filter(c => c.make === makeVal);
-    if (modelVal) out = out.filter(c => c.model === modelVal);
-    if (q) out = out.filter(c => (c.make + ' ' + c.model).toLowerCase().includes(q) || (c.color || '').toLowerCase().includes(q));
-    if (!Number.isNaN(ym)) out = out.filter(c => c.year >= ym);
-    if (!Number.isNaN(yM)) out = out.filter(c => c.year <= yM);
-    if (!Number.isNaN(pmin)) out = out.filter(c => c.price >= pmin);
-    if (!Number.isNaN(pmax)) out = out.filter(c => c.price <= pmax);
 
-    if (sortVal === 'priceAsc') out.sort((a, b) => a.price - b.price);
-    else if (sortVal === 'priceDesc') out.sort((a, b) => b.price - a.price);
-    else if (sortVal === 'yearDesc') out.sort((a, b) => b.year - a.year);
+    // ფილტრაცია
+    out = out.filter(c => {
+        const queryMatch = !filters.query || 
+            (c.make + ' ' + c.model).toLowerCase().includes(filters.query) || 
+            (c.color || '').toLowerCase().includes(filters.query);
+
+        return (
+            (!filters.type || c.type === filters.type) &&
+            (!filters.make || c.make === filters.make) &&
+            (!filters.model || c.model === filters.model) &&
+            queryMatch &&
+            (Number.isNaN(filters.yearMin) || c.year >= filters.yearMin) &&
+            (Number.isNaN(filters.yearMax) || c.year <= filters.yearMax) &&
+            (Number.isNaN(filters.priceMin) || c.price >= filters.priceMin) &&
+            (Number.isNaN(filters.priceMax) || c.price <= filters.priceMax)
+        );
+    });
+
+    // სორტირება
+    switch (filters.sort) {
+        case 'priceAsc':
+            out.sort((a, b) => a.price - b.price);
+            break;
+        case 'priceDesc':
+            out.sort((a, b) => b.price - a.price);
+            break;
+        case 'yearDesc':
+            out.sort((a, b) => b.year - a.year);
+            break;
+    }
 
     renderList(out);
 }
 
+// ---
+
+
+
+/**
+ * მანქანების სიის რენდერინგი
+ * @param {Array<Object>} items - გასარენდერებელი მანქანების მასივი
+ */
 function renderList(items) {
-    const container = document.getElementById('list');
-    const count = document.getElementById('count');
-    container.innerHTML = '';
+    if (!DOM.list || !DOM.count) return;
+
+    DOM.list.innerHTML = '';
+    
     if (!items.length) {
-        container.innerHTML = '<div class="no-results">შედეგი არ მოიძებნა</div>';
-        count.textContent = '0';
+        DOM.list.innerHTML = '<div class="no-results">შედეგი არ მოიძებნა</div>';
+        DOM.count.textContent = '0';
         return;
     }
-    count.textContent = items.length;
+    
+    DOM.count.textContent = items.length;
+
+    const fragment = document.createDocumentFragment();
+
     items.forEach(c => {
-        const card = document.createElement('div'); card.className = 'card';
+        const card = document.createElement('div');
+        card.className = 'card';
         const img = c.images && c.images.length ? c.images[0] : '';
+        
+        // თეგით ლითერალი (Template literal)
         card.innerHTML = `
-      <img src="${img}" alt="${c.make} ${c.model}" />
-      <div class="info">
-        <div class="title">${c.make} ${c.model}</div>
-        <div class="specs">${c.type} · ${c.year} · ${c.fuel || ''} · ${c.trans || ''}</div>
-        <div class="price">₾${c.price.toLocaleString()}</div>
-      </div>
-    `;
+            <img src="${img}" alt="${c.make} ${c.model}" loading="lazy" />
+            <div class="info">
+                <div class="title">${c.make} ${c.model}</div>
+                <div class="specs">${c.type} · ${c.year} · ${c.fuel || ''} · ${c.trans || ''}</div>
+                <div class="price">₾${(c.price || 0).toLocaleString('en-US')}</div>
+            </div>
+        `;
+
         card.addEventListener('click', () => { window.location = `car.html?id=${c.id}`; });
-        container.appendChild(card);
+        fragment.appendChild(card);
     });
+    
+    DOM.list.appendChild(fragment);
 }
 
+/**
+ * მანქანის დეტალების გვერდის რენდერინგი
+ */
 function showCarDetail() {
+    if (!DOM.carDetail) return;
+    
     const id = parseInt(getParam('id'));
-    const container = document.getElementById('carDetail');
-    if (isNaN(id)) { container.innerText = 'მანქანა არ იპოვა (არასწორი id)'; return; }
-    const car = CARS.find(c => c.id === id);
-    if (!car) { container.innerText = 'მანქანა არ იპოვა'; return; }
+    
+    if (isNaN(id)) {
+        DOM.carDetail.innerText = 'მანქანა არ იპოვა (არასწორი id)';
+        return;
+    }
 
+    const car = CARS.find(c => c.id === id);
+    
+    if (!car) {
+        DOM.carDetail.innerText = 'მანქანა არ იპოვა';
+        return;
+    }
+
+    // დეტალების HTML-ის გენერირება
     let html = `<h2>${car.make} ${car.model} (${car.year})</h2>`;
-    html += `<div class="gallery">`;
-    (car.images || []).forEach(img => {
-        html += `<img src="${img}" alt="${car.make} ${car.model}" />`;
+    
+    // გალერეა
+    const galleryHtml = (car.images || [])
+        .map(img => `<img src="${img}" alt="${car.make} ${car.model}" loading="lazy" />`)
+        .join('');
+
+    html += `<div class="gallery">${galleryHtml}</div>`;
+
+    // სპეციფიკაციები
+    const specs = [
+        { label: 'ტიპი', value: car.type },
+        { label: 'ფასი', value: `₾${car.price.toLocaleString('en-US')}` },
+        { label: 'საწვავი', value: car.fuel },
+        { label: 'ტრანს', value: car.trans },
+        { label: 'გარბენი', value: car.mileage !== undefined ? `${car.mileage.toLocaleString('en-US')} კმ` : null },
+        { label: 'ფერი', value: car.color }
+    ];
+
+    specs.forEach(spec => {
+        if (spec.value) {
+            html += `<p><strong>${spec.label}:</strong> ${spec.value}</p>`;
+        }
     });
-    html += `</div>`;
-    html += `<p><strong>ტიპი:</strong> ${car.type}</p>`;
-    html += `<p><strong>ფასი:</strong> ₾${car.price}</p>`;
-    if (car.fuel) html += `<p><strong>საწვავი:</strong> ${car.fuel}</p>`;
-    if (car.trans) html += `<p><strong>ტრანს:</strong> ${car.trans}</p>`;
-    if (car.mileage !== undefined) html += `<p><strong>გარბენი:</strong> ${car.mileage.toLocaleString()} კმ</p>`;
-    if (car.color) html += `<p><strong>ფერი:</strong> ${car.color}</p>`;
-    container.innerHTML = html;
+    
+    DOM.carDetail.innerHTML = html;
 }
+
+// ---
 
 document.addEventListener('DOMContentLoaded', init);
